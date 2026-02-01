@@ -1,96 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
   <title>Happy Birthday</title>
+
   <style>
     body {
       margin: 0;
       height: 100vh;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      background: url("bg.jpg") no-repeat center center fixed;
+      background-size: cover;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+      font-family: sans-serif;
       overflow: hidden;
-      font-family: Arial, sans-serif;
     }
 
-    h1 {
-      display: none;
-      font-size: 48px;
+    #title {
+      font-size: 40px;
       color: white;
-      text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
-      z-index: 10;
+      text-shadow: 0 3px 10px rgba(0,0,0,0.8);
+      margin-bottom: 20px;
     }
 
-    button {
-      padding: 15px 30px;
-      font-size: 20px;
+    #startBtn {
+      padding: 12px 24px;
+      font-size: 18px;
       border: none;
-      border-radius: 30px;
-      background: #ff4081;
-      color: white;
+      border-radius: 8px;
       cursor: pointer;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     }
 
     .balloon {
       position: absolute;
-      bottom: -100px;
-      font-size: 40px;
-      animation: floatUp 6s linear forwards;
+      bottom: -50px;
+      font-size: 32px;
+      animation: float 6s linear infinite;
     }
 
-    @keyframes floatUp {
-      from {
-        transform: translateY(0);
-        opacity: 1;
-      }
-      to {
-        transform: translateY(-110vh);
-        opacity: 0;
-      }
+    @keyframes float {
+      from { transform: translateY(0); }
+      to { transform: translateY(-110vh); }
     }
   </style>
 </head>
+
 <body>
 
   <h1 id="title">🎉 Happy Birthday Su San 🎂</h1>
-  <button id="startBtn">Tap to Start 🎈</button>
+  <button id="startBtn">Tap to Start 🎶</button>
 
-  <audio id="song" src="happy-birthday1.mp3" preload="auto"></audio>
+  <audio id="song" src="happy-birthday1.mp3"></audio>
 
   <script>
     const btn = document.getElementById("startBtn");
     const song = document.getElementById("song");
-    const title = document.getElementById("title");
 
     btn.onclick = () => {
       btn.style.display = "none";
-      title.style.display = "block";
-
-      song.muted = false;
       song.play();
 
-      setInterval(createBalloon, 400);
+      setInterval(() => {
+        const balloon = document.createElement("div");
+        balloon.className = "balloon";
+        const emojis = ["🎈","⚽","👏","🎉"];
+        balloon.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        balloon.style.left = Math.random() * 100 + "vw";
+        document.body.appendChild(balloon);
+
+        setTimeout(() => balloon.remove(), 6000);
+      }, 400);
     };
-
-    function createBalloon() {
-      const balloon = document.createElement("div");
-      balloon.className = "balloon";
-
-      const emojis = ["🎈", "🎉", "⚽"];
-      balloon.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-
-      balloon.style.left = Math.random() * 100 + "vw";
-
-      document.body.appendChild(balloon);
-
-      setTimeout(() => {
-        balloon.remove();
-      }, 6000);
-    }
   </script>
 
 </body>
